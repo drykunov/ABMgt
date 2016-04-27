@@ -1,8 +1,8 @@
 require(mco)
 
 
-game_matrix <- list(matrix(c(-1, 0, -3, -2), 2, 2), 
-                    matrix(c(-1, -3, 0, -2), 2, 2))
+game_matrix <- list(matrix(c(-1, 0, -3, -2)*(-1), 2, 2), 
+                    matrix(c(-1, -3, 0, -2)*(-1), 2, 2))
 
 
 normalizeStrategies <- function(s) {
@@ -45,8 +45,11 @@ totalScore <- function(s) {
     if(!is.numeric(s) || length(s) != 4) stop("Input from alg 
                                               is inapropriate!")
     
+    # How many games are played to determine scores
+    ngames <- 60
+    
     # Initialize score table
-    scores <- matrix(numeric(200), nrow = 100, ncol = 2)
+    scores <- matrix(numeric(ngames*2), nrow = ngames, ncol = 2)
     
     # Normilize input vector
     norm_strategies <- normalizeStrategies(s)
@@ -59,20 +62,21 @@ totalScore <- function(s) {
         scores[i, ] <- calcScore(pure_strategies)
     }
     
-    return(scores)
+    summed_scores <- colSums(scores)/ngames
+    return(summed_scores)
 }
 
 
 # Convert maximizing GT problem to minimizing problem
 gtMinProb <- function(x) {
-    return(colSums(totalScore(x))*(-1))
+    return(totalScore(x)*(-1))
 }
 
 
 
 raw_results <- nsga2(gtMinProb, 4, 2,
-      generations = 100,
-      popsize = 100,
+      generations = 15,
+      popsize = 80,
       lower.bounds = rep(0, 4),
       upper.bounds = rep(1, 4))
 

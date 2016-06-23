@@ -46,8 +46,8 @@ GM <- list()
 GM$prisoners_dilemma <-
     list(
         players = c("p1", "p2"),
-        outcomes = list(p1 = matrix(c(-1, 0,-3,-2), 2, 2),
-                        p2 = matrix(c(-1,-3, 0,-2), 2, 2)),
+        outcomes = list(p1 = matrix(c(-1, 0,-3,-2), 2, 2, byrow = TRUE),
+                        p2 = matrix(c(-1,-3, 0,-2), 2, 2, byrow = TRUE)),
         strategies = list(
             p1 = c("Cooperate", "Defect"),
             p2 = c("Cooperate", "Defect")

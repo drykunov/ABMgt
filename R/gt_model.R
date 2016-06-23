@@ -183,7 +183,7 @@ GetGameScores <- function(decisions) {
     scores <- unclass(decisions)
     
     for (i in names(scores)) {
-        scores[[i]] <- do.call(`[`, c(list(gm$outcomes[[i]]), decisions))
+        scores[[i]] <- do.call(`[`, c(list(gm$outcomes[[i]]), rev(decisions)))
     }
     
     class(scores) %<>% c("scores")

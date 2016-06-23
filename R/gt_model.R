@@ -90,6 +90,21 @@ gm <- GM$prisoners_dilemma
     return(x)
 }
 
+merge.population <- function(pop1, pop2) {
+    if (!("population" %in% class(pop1)) ||
+        !("population" %in% class(pop2)))
+        stop("f:merge to merge populations both inputs must have class population!")
+    if (!identical(names(pop1), names(pop2))) stop("f:merge to merge populations they must have equal player types!")
+    
+    out <- pop1[0, 0]
+    for (i in names(out)) {
+        temp <- merge(pop1[[i]], pop2[[i]], all = TRUE)
+        out[[i]][seq_len(nrow(temp)), ] <- temp
+    }
+    
+    return(out)
+}
+
 InitializePopulation <- function(npop = 0, gm = GM$prisoners_dilemma) {
     pop <- list()
     class(pop) <- c(class(pop), "population")

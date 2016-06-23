@@ -62,14 +62,11 @@ strat.coding.min <- 0
 strat.coding.max <- 1
 gm <- GM$prisoners_dilemma
 
-# Functions ----------------------------------------------------
-
-
 # Utility functions -------------------------------------------------------
 
 `[.population` <- function(x, ...) {
     if (length(x) != length(list(...)))
-        stop("Substituting vector's length doesn't match population structure!")
+        stop("Subsetting index length doesn't match population structure!")
     
     indices <- list(...)
     
@@ -82,7 +79,7 @@ gm <- GM$prisoners_dilemma
 
 `[<-.population` <- function(x, ..., value) {
     if (length(x) != length(list(...)))
-        stop("Substituting vector's length doesn't match population structure!")
+        stop("Subsetting index vector's length doesn't match population structure!")
     
     indices <- list(...)
     

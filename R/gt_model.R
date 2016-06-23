@@ -245,12 +245,14 @@ TournamentSelecton <- function(pop, playerType, index, npairs) {
 CalculateScoreForSet <- function(strategies.set) {
     npairs <- nrow(strategies.set[[1]])
     nplayers <- length(strategies.set)
+    mainPlayerType <- attr(strategies.set, which = "playerType")
     
     score <- 0
-    for (i in seq_len(npairs)) {
+    
+    for (i in seq_len(npairs)) {  # Iterating through strategies sets
         args <- replicate(nplayers, list(i))
-        strategies.single.set <- do.call(`[`, c(list(strategies.set), args))
-        score <- score + PlayGame(strategies.single.set)[[attr(strategies.set, which = "type")]]
+        strategies.single.set <- do.call(`[`, c(list(strategies.set), args))  # Subset single set of strategies
+        score <- score + PlayGame(strategies.single.set)[[mainPlayerType]]
     }
     
     return(score)

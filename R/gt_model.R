@@ -56,9 +56,10 @@ GM$prisoners_dilemma <-
 
 # Variables ----------------------------------------------------
 
+# Defaults
 strat.coding.min <- 0
 strat.coding.max <- 1
-index <- list()
+gm <- GM$prisoners_dilemma
 
 # Functions ----------------------------------------------------
 

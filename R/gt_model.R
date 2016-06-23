@@ -90,7 +90,7 @@ gm <- GM$prisoners_dilemma
     return(x)
 }
 
-merge.population <- function(pop1, pop2) {
+rbind.population <- function(pop1, pop2) {
     if (!("population" %in% class(pop1)) ||
         !("population" %in% class(pop2)))
         stop("f:merge to merge populations both inputs must have class population!")

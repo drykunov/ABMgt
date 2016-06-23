@@ -81,20 +81,26 @@ CorrectForRestrictions <- function(x, min = strat.coding.min, max = strat.coding
 # Evolutionary Functions --------------------------------------------------
 
 GetFitValues <- function(population, ngames) {
-    if (missing(population)) stop("f:GetFitValues - Provide population to calculate fir values for!")
-    if (missing(ngames)) stop("f:GetFitValues - Provide number of games to calculate values on!")
-        
+    if (missing(population))
+        stop("f:GetFitValues - Provide population to calculate fir values for!")
+    if (missing(ngames))
+        stop("f:GetFitValues - Provide number of games to calculate values on!")
+    
     fitValues <- DuplicateListStructure(population)
     class(fitValues) %<>% c("population")
     
     cat("Progress:")
-    pb = progress_bar$new(total = sum(sapply(population, nrow)), format = "[:bar] :percent :eta", clear = FALSE)
+    pb = progress_bar$new(total = sum(sapply(population, nrow)),
+                          format = "[:bar] :percent :eta",
+                          clear = FALSE)
     
     for (i in names(population)) {
         cat("\nCalculating Fit Values for ---", i, "\n")
-        fitValues[[i]] <- data.frame(score = numeric(0)) %>% tbl_df()
+        fitValues[[i]] <-
+            data.frame(score = numeric(0)) %>% tbl_df()
         
-        for (n in seq_len(nrow(population[[i]]))) {  # Iterating through separated strategies
+        for (n in seq_len(nrow(population[[i]]))) {
+            # Iterating through separated strategies
             stratset <- TournamentSelecton(population, i, n, ngames)
             score <- CalculateScoreForSet(stratset)
             fitValues[[i]][n, "score"] <- score

@@ -111,12 +111,15 @@ GetFitValues <- function(population, ngames) {
     return(fitValues)
 }
 
-SortToFit <- function(population, fitValues) {
-    if (!TestListsEqualSize(population, fitValues)) stop("Population and fitValues have different structure - couldn't sort!")
+SortToFit <- function(population, fitValues, decreasing = TRUE) {
+    if(missing(population) || missing(fitValues)) stop("f:SortToFit must be provided with Population and fitValues!")
+    if (!TestListsEqualSize(population, fitValues))
+        stop("Population and fitValues have different structure - couldn't sort!")
     nplayers <- length(population)
     
     for (i in seq_len(nplayers)) {
-        population[[i]] <- population[[i]][order(fitValues[[i]]$score, decreasing = TRUE), ]
+        population[[i]] <-
+            population[[i]][order(fitValues[[i]][[1]], decreasing = decreasing), ]
     }
     
     return(population)

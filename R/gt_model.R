@@ -137,6 +137,14 @@ NormalizePopulation <- function(pop) {
     return(out)
 }
 
+dot_every <- function(f, n) {
+    i <- 1
+    function(...) {
+        if (i %% n == 0) cat(".")
+        i <<- i + 1
+        f(...)
+    }
+}
 
 
 # Playing Games -----------------------------------------------------------

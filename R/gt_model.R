@@ -192,23 +192,23 @@ PlayGame <- function(strategies.single.set) {
     return(scores)
 }
 
-TournamentSelecton <- function(pop, type, index, npairs) {
-    if ((type %in% names(pop)) == FALSE) stop("Wrong type for the strategy!")
+TournamentSelecton <- function(pop, playerType, index, npairs) {
+    if ((playerType %in% names(pop)) == FALSE) stop("Wrong type for the strategy!")
         if (missing(pop))
             stop("You should specify population to select from!")
-        if (missing(type))
+        if (missing(playerType))
             stop("You should specify type of a strategy to start selection!")
         if (missing(index))
             stop("You should provide exact strategy to start selection!")
     
-    strats.to.select.from <- names(pop)[! names(pop) %in% type]
+    strats.to.select.from <- names(pop)[! names(pop) %in% playerType]
     
     strategies.set <- list()
     length(strategies.set) <- length(pop)
     names(strategies.set) <- names(pop)
     
-    strategies.set[[type]] <- pop[[type]][0, ]
-    strategies.set[[type]][seq_len(npairs), ] <- pop[[type]][index, ]
+    strategies.set[[playerType]] <- pop[[playerType]][0, ]
+    strategies.set[[playerType]][seq_len(npairs), ] <- pop[[playerType]][index, ]
     
     
     for (i in strats.to.select.from) {
@@ -222,7 +222,7 @@ TournamentSelecton <- function(pop, type, index, npairs) {
     }
     
     class(strategies.set) %<>% c("strategies.set", "population")
-    attr(strategies.set, which = "type") <- "p2"
+    attr(strategies.set, which = "playerType") <- playerType
     return(strategies.set)
 }
 

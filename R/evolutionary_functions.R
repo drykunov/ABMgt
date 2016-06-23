@@ -125,11 +125,26 @@ SortToFit <- function(population, fitValues, decreasing = TRUE) {
     return(population)
 }
 
-
-Mutate <- function(curPop, nMutants) {
+Mutate <- function(curPop, mutationMagnitude = mutationMagnitude) {
+    out <- curPop[0, 0]
     
+    for(i in names(curPop)) {
+        nstratVectors <- nrow(curPop[[i]])
+        nstratTypes <- ncol(curPop[[i]])
+        
+        out[[i]][seq(nstratVectors), ] <- curPop[[i]] + rmutate(nstratVectors*nstratTypes)
+    }
+    
+    out <- rapply(out, CorrectForRestrictions, how = "replace")
+    
+    return(out)
 }
 
+GetDeviationFromRestrictions <- function(strategy, targetSum = strat.coding.max) {
+    if (! "numeric" %in% class(strategy)) stop("f:GetDeviationFromRestrictions could operate only on numeric vectors!")
+    deviation <- abs(targetSum - sum(strategy))
+    return(deviation)
+}
 
 
 

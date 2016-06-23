@@ -98,8 +98,23 @@ rbind.population <- function(pop1, pop2) {
     
     out <- pop1[0, 0]
     for (i in names(out)) {
-        temp <- merge(pop1[[i]], pop2[[i]], all = TRUE)
-        out[[i]][seq_len(nrow(temp)), ] <- temp
+        out[[i]] <- rbind(pop1[[i]], pop2[[i]]) %>% tbl_df()
+        # out[[i]][seq_len(nrow(temp)), ] <- temp
+    }
+    
+    return(out)
+}
+
+cbind.population <- function(pop1, pop2) {
+    if (!("population" %in% class(pop1)) ||
+        !("population" %in% class(pop2)))
+        stop("f:merge to merge populations both inputs must have class population!")
+    if (!identical(names(pop1), names(pop2))) stop("f:merge to merge populations they must have equal player types!")
+    
+    out <- pop1[0, 0]
+    for (i in names(out)) {
+        out[[i]] <- cbind(pop1[[i]], pop2[[i]]) %>% tbl_df()
+        # out[[i]][seq_len(nrow(temp)), ] <- temp
     }
     
     return(out)

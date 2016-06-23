@@ -79,6 +79,19 @@ gm <- GM$prisoners_dilemma
     return(x)
 }
 
+`[<-.population` <- function(x, ..., value) {
+    if (length(x) != length(list(...)))
+        stop("Substituting vector's length doesn't match population structure!")
+    
+    indices <- list(...)
+    
+    for (i in seq_along(names(x))) {
+        x[[i]][indices[[i]], ] <- value[[i]]
+    }
+    
+    return(x)
+}
+
 InitializePopulation <- function(npop = 0, gm = GM$prisoners_dilemma) {
     pop <- list()
     class(pop) <- c(class(pop), "population")

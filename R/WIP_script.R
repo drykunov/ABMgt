@@ -18,6 +18,8 @@ mutation_rate <- 0.2
 mutation_expansion_rate <- 1.3
 crossover_rate <- 0.3
 
+mutationMagnitude <- 1/4
+
 # Tests -------------------------------------------------------------------
 
 set.seed(111)
@@ -26,14 +28,15 @@ gm <- GM$prisoners_dilemma
 pop_in <- InitializePopulation(50, gm)
 pop <- NormalizePopulation(pop_in)
 
+
+
 # print(pop_norm)
 # 
 # mutate(pop_norm$p2, Strategy = apply(cbind(Cooperate, Defect), 1, ChoosePureStrategy))
 
 
-
-ss <- TournamentSelecton(pop, "p2", index = 6, npairs = 40)
-dd <- TournamentSelecton(pop, "p1", index = 7, npairs = 40)
+# ss <- TournamentSelecton(pop, "p2", index = 6, npairs = 40)
+# dd <- TournamentSelecton(pop, "p1", index = 7, npairs = 40)
 
 
 # # Sort strategies to their distance from restrictions

@@ -170,7 +170,7 @@ GetGameScores <- function(decisions) {
     return(scores)
 }
 
-PlayGame <- function(strategies.single.set, times) {
+PlayGame <- function(strategies.single.set) {
 
     if (missing(strategies.single.set)) {
         warning("Game not played - strategies set is empty!")

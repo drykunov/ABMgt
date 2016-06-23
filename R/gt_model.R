@@ -39,6 +39,7 @@
 
 library(dplyr)
 library(magrittr)
+library(progress)
 
 # Games in normal form ----------------------------------------------------
 

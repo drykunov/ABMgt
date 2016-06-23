@@ -23,6 +23,61 @@ DuplicateListStructure <- function(list.to.duplicate) {
     return(out)
 }
 
+GenerateStrategiesSet <-
+    function(stratVector, nSets, gameModel = gm) {
+        tempPop <- InitializePopulation(npop = 0, gm = gameModel)
+        
+        subsVector <- vector()
+        
+        for (i in seq(length(tempPop))) {
+            nStratTypes <- ncol(tempPop[[i]])
+            
+            subsVector <- c(subsVector, rep(i, nStratTypes))
+        }
+        
+        if (length(subsVector) != length(stratVector))
+            stop("f:GenerateStratgiesSet subsVector not equal to stratVector!")
+        
+        for (i in seq(length(tempPop))) {
+            stratsToRep <- stratVector[subsVector == i]
+            
+            tempPop[[i]][seq(nSets),] <-
+                matrix(rep(stratsToRep, nSets), nSets, nStratTypes, byrow = TRUE)
+        }
+        
+        return(tempPop)
+    }
+
+rmutate <- function(n) {
+    out <-
+        rnorm(n, mean = 0,
+              sd = ((strat.coding.max - strat.coding.min) / (3 / mutationMagnitude)
+              ))
+    return(out)
+}
+
+ApplyToEveryStrategy <- function(population, FUN, varname = as.character(substitute(FUN))) {
+    out <- DuplicateListStructure(population)
+    
+    for (i in names(population)) {
+        out[[i]] <-
+            data.frame(vector(length = nrow(population[[i]]))) %>% tbl_df()
+        names(out[[i]]) <- varname
+        
+        for (n in seq_len(nrow(population[[i]]))) {
+            out[[i]][n, varname] <- FUN(unlist(population[[i]][n, ]))
+        }
+    }
+    
+    return(out)
+}
+
+CorrectForRestrictions <- function(x, min = strat.coding.min, max = strat.coding.max) {
+    x[x > max] <- max
+    x[x < min] <- min
+    return(x)
+}
+
 # Evolutionary Functions --------------------------------------------------
 
 GetFitValues <- function(population, ngames) {

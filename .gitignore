@@ -3,3 +3,5 @@
 .Rhistory
 .RData
 CODECHUNKS/
+*_cache/
+*.html

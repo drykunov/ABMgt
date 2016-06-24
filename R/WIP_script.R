@@ -24,9 +24,14 @@ mutationMagnitude <- 1/4
 
 set.seed(111)
 
-gm <- GM$prisoners_dilemma
-pop_in <- InitializePopulation(50, gm)
-pop <- NormalizePopulation(pop_in)
+
+# sim1 <- CreateSimulation()
+# sim2 <- RunSimulation(sim1, 8)
+
+
+
+# pop_in <- InitializePopulation(50, gm)
+# pop <- NormalizePopulation(pop_in)
 
 
 

@@ -262,10 +262,10 @@ TournamentSelecton <- function(pop, playerType, index, npairs) {
 }
 
 
-CalculateScoreForSet <- function(strategies.set) {
+CalculateScoreForSet <- function(strategies.set, mainPlayerType) {
     npairs <- nrow(strategies.set[[1]])
     nplayers <- length(strategies.set)
-    mainPlayerType <- attr(strategies.set, which = "playerType")
+    if(missing(mainPlayerType)) mainPlayerType <- attr(strategies.set, which = "playerType")
     
     score <- 0
     

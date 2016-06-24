@@ -89,7 +89,7 @@ GetFitValues <- function(population, ngames) {
     fitValues <- DuplicateListStructure(population)
     class(fitValues) %<>% c("population")
     
-    cat("Progress:")
+    cat("\n\nProgress:")
     pb = progress_bar$new(total = sum(sapply(population, nrow)),
                           format = "[:bar] :percent :eta",
                           clear = FALSE)
@@ -124,6 +124,9 @@ SortToFit <- function(population, fitValues, decreasing = TRUE) {
     
     return(population)
 }
+
+
+# Mutation ----------------------------------------------------------------
 
 Mutate <- function(curPop, mutationMagnitude = mutationMagnitude) {
     out <- curPop[0, 0]

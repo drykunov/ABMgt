@@ -149,8 +149,86 @@ GetDeviationFromRestrictions <- function(strategy, targetSum = strat.coding.max)
     return(deviation)
 }
 
+GetDevRanks <- function(population) {
+    out <- ApplyToEveryStrategy(population, FUN = GetDeviationFromRestrictions, "deviation")
+    class(out) %<>% c("population")
+    return(out)
+}
 
 
+# Simulation --------------------------------------------------------------
+
+CreateSimulation <- function(generations = 20, nGames = 30, popSize = 60, gameModel = gm) {
+    out <- list()
+    class(out) %<>% c("simulation")
+    out$population <- InitializePopulation(npop = popSize, gm = gameModel) %>% NormalizePopulation()
+    out$currentGeneration <- 1
+    out$targetGeneration <- generations
+    out$nGames <- nGames
+    out$popSize <- popSize
+    out$gameModel = gameModel
+    
+    return(out)
+}
+
+SubsetStrategiesSet <- function(population, nSets) {
+    nPlayers <- length(population)
+    args <- replicate(nPlayers, list(nSets))
+    population <- do.call(`[`, c(list(population), args))
+    return(population)
+}
+
+RunSimulation <- function(simulation, iterations = 1) {
+    if(! "simulation" %in% class(simulation)) stop("First arg must be of class 'simulation'!")
+    remainingGenerations <- simulation$targetGeneration - simulation$currentGeneration
+    if(remainingGenerations <= 0) stop("Provided simulation already completed!")
+    if(iterations > remainingGenerations) {
+        warning(paste("Number of iterations to be runned was contracted from", iterations, "to", remainingGenerations))
+        iterations <- remainingGenerations
+    }
+    
+    gm <<- simulation$gameModel
+    
+    pbSim <- progress_bar$new(total = iterations,
+                              format = "Running Simulation: {:curSim OF :total} [[:bar]] :percent :eta",
+                              clear = FALSE)
+    
+    for (i in seq(iterations)) {
+        pbSim$tick(0, tokens = list(curSim = i))
+        fits <- GetFitValues(simulation$population, simulation$nGames)
+        simulation$population <- SortToFit(simulation$population, fits)
+        
+        # nBestToMutate <- ceiling(mutation_rate * simulation$popSize)
+        nDrops <- ceiling(dropout_rate * simulation$popSize)
+        
+        
+        
+        mutants <-
+            simulation$population %>%
+            SubsetStrategiesSet(seq(simulation$popSize - nDrops))
+        mutants <- rbind(mutants, mutants)
+        mutants <- rbind(mutants, mutants)
+        
+        mutants <- Mutate(mutants)
+        
+        ## Those lines cause population in matching_pennies stuck on edges, 
+        ## but guarantee convergence to edges if needed.
+        # mutantsRanks <- GetDevRanks(mutants)
+        # mutants <- SortToFit(mutants, mutantsRanks, decreasing = FALSE)
+        
+        simulation$population <-
+            rbind(
+                SubsetStrategiesSet(simulation$population, seq(simulation$popSize - nDrops)),
+                SubsetStrategiesSet(mutants, seq(nDrops))
+            )
+        simulation$population %<>% NormalizePopulation()
+        simulation$currentGeneration <- simulation$currentGeneration + 1
+        pbSim$tick(1, tokens = list(curSim = i))
+    }
+    
+    
+    return(simulation)
+}
 
 
 

@@ -47,20 +47,25 @@ GM <- list()
 GM$prisoners_dilemma <-
     list(
         players = c("p1", "p2"),
-        outcomes = list(p1 = matrix(c(-1, 0,-3,-2), 2, 2, byrow = TRUE),
-                        p2 = matrix(c(-1,-3, 0,-2), 2, 2, byrow = TRUE)),
+        outcomes = list(
+            p1 = matrix(c(-1, 0, -3, -2), 2, 2, byrow = TRUE),
+            p2 = matrix(c(-1, -3, 0, -2), 2, 2, byrow = TRUE)
+        ),
         strategies = list(
             p1 = c("Cooperate", "Defect"),
             p2 = c("Cooperate", "Defect")
         )
     )
-
-# Variables ----------------------------------------------------
-
-# Defaults
-strat.coding.min <- 0
-strat.coding.max <- 1
-gm <- GM$prisoners_dilemma
+GM$matching_pennies <-
+    list(
+        players = c("p1", "p2"),
+        outcomes = list(
+            p1 = matrix(c(1, -1, -1, 1), 2, 2, byrow = TRUE),
+            p2 = matrix(c(-1, 1, 1, -1), 2, 2, byrow = TRUE)
+        ),
+        strategies = list(p1 = c("Head", "Tail"),
+                          p2 = c("Head", "Tail"))
+    )
 
 # Utility functions -------------------------------------------------------
 

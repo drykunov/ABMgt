@@ -40,6 +40,7 @@ GenerateStrategiesSet <-
         
         for (i in seq(length(tempPop))) {
             stratsToRep <- stratVector[subsVector == i]
+            nStratTypes <- ncol(tempPop[[i]])
             
             tempPop[[i]][seq(nSets),] <-
                 matrix(rep(stratsToRep, nSets), nSets, nStratTypes, byrow = TRUE)

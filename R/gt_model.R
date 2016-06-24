@@ -21,11 +21,25 @@ GM$matching_pennies <-
     list(
         players = c("p1", "p2"),
         outcomes = list(
-            p1 = matrix(c(1, -1, -1, 1), 2, 2, byrow = TRUE),
-            p2 = matrix(c(-1, 1, 1, -1), 2, 2, byrow = TRUE)
+            p1 = matrix(c(1, -1, 
+                          -1, 1), 2, 2, byrow = TRUE),
+            p2 = matrix(c(-1, 1, 
+                          1, -1), 2, 2, byrow = TRUE)
         ),
         strategies = list(p1 = c("Head", "Tail"),
                           p2 = c("Head", "Tail"))
+    )
+GM$BoS <- 
+    list(
+        players = c("p1", "p2"),
+        outcomes = list(
+            p1 = matrix(c(4, 0, 0, 
+                          0, 2, 1), 2, 3, byrow = TRUE),
+            p2 = matrix(c(2, 0, 1, 
+                          0, 4, 3), 2, 3, byrow = TRUE)
+        ),
+        strategies = list(p1 = c("B", "S"),
+                          p2 = c("B", "S", "X"))
     )
 
 # Utility functions -------------------------------------------------------

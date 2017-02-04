@@ -5,3 +5,4 @@
 CODECHUNKS/
 *_cache/
 *.html
+!Paper.html

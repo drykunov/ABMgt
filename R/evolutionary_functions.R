@@ -96,7 +96,7 @@ GetFitValues <- function(population, ngames) {
                           clear = FALSE)
     
     for (i in names(population)) {
-        cat("\nCalculating Fit Values for ---", i, "\n")
+        #cat("\nCalculating Fit Values for ---", i, "\n")
         fitValues[[i]] <-
             data.frame(score = numeric(0)) %>% tbl_df()
         

@@ -45,10 +45,14 @@ GM$BoS <-
 # Utility functions -------------------------------------------------------
 
 `[.population` <- function(x, ...) {
-    if (length(x) != length(list(...)))
+    if (length(x) != length(list(...)) && !identical(list(...), list(0)))
         stop("Subsetting index length doesn't match population structure!")
     
-    indices <- list(...)
+    if (identical(list(...), list(0))) {
+        indices <- sapply(rep(0, length(x)), list) #automatic subsetting to an empty population using [0]
+    } else {
+        indices <- list(...)
+    }
     
     for (i in seq_along(names(x))) {
         x[[i]] <- x[[i]][indices[[i]],]
@@ -76,7 +80,7 @@ rbind.population <- function(pop1, pop2) {
         stop("f:merge to merge populations both inputs must have class population!")
     if (!identical(names(pop1), names(pop2))) stop("f:merge to merge populations they must have equal player types!")
     
-    out <- pop1[0, 0]
+    out <- pop1[0]
     for (i in names(out)) {
         out[[i]] <- rbind(pop1[[i]], pop2[[i]]) %>% tbl_df()
         # out[[i]][seq_len(nrow(temp)), ] <- temp
@@ -91,7 +95,7 @@ cbind.population <- function(pop1, pop2) {
         stop("f:merge to merge populations both inputs must have class population!")
     if (!identical(names(pop1), names(pop2))) stop("f:merge to merge populations they must have equal player types!")
     
-    out <- pop1[0, 0]
+    out <- pop1[0]
     for (i in names(out)) {
         out[[i]] <- cbind(pop1[[i]], pop2[[i]]) %>% tbl_df()
         # out[[i]][seq_len(nrow(temp)), ] <- temp

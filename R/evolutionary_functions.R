@@ -130,7 +130,7 @@ SortToFit <- function(population, fitValues, decreasing = TRUE) {
 # Mutation ----------------------------------------------------------------
 
 Mutate <- function(curPop, mutationMagnitude = mutationMagnitude) {
-    out <- curPop[0, 0]
+    out <- curPop[0]
     
     for(i in names(curPop)) {
         nstratVectors <- nrow(curPop[[i]])
